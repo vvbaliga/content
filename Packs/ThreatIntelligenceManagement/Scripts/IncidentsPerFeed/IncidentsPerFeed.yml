@@ -1,0 +1,39 @@
+args:
+  - default: false
+    description: Additional filters for the 'getIncidents' command, for example 'closeReason:"False
+      Positive"'
+    isArray: false
+    name: query
+    required: false
+    secret: false
+  - default: false
+    description: Name to display in the widget as the distinct incidents name, for example
+      'False Positive Incidents'
+    isArray: false
+    name: incidents_distinction_name
+    required: false
+    secret: false
+comment: "Return amount of incidents that has indicators from feeds in them.\nOptional-\
+  \ a query can be added and the script will then return the incident amount categorized\
+  \ by the query.\nMeaning it will display how much of the incidents that came from\
+  \ this feed returned from the query. "
+commonfields:
+  id: IncidentsPerFeed
+  version: -1
+enabled: true
+name: IncidentsPerFeed
+script: '-'
+subtype: python3
+system: false
+tags:
+  - widget
+timeout: '0'
+type: python
+dockerimage: demisto/python3:3.8.1.5734
+runas: DBotWeakRole
+runonce: false
+tests:
+  - No test - Cannot generate incidents from feeds in a test
+dependson:
+  must:
+    - getIncidents
