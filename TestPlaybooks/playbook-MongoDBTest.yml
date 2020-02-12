@@ -1,0 +1,1190 @@
+elasticcommonfields: {}
+id: TestMongoDB
+version: -1
+name: TestMongoDB
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 98133231-81e7-4319-8e6d-376ebb3f97c3
+    type: start
+    task:
+      elasticcommonfields: {}
+      id: 98133231-81e7-4319-8e6d-376ebb3f97c3
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 50
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "1":
+    id: "1"
+    taskid: 1fcfb4a3-48c3-4ba4-8599-4d58cd2fd676
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 1fcfb4a3-48c3-4ba4-8599-4d58cd2fd676
+      version: -1
+      name: DeleteContext
+      description: Delete field from context
+      scriptName: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      all:
+        simple: "yes"
+      index: {}
+      key: {}
+      keysToKeep: {}
+      subplaybook: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 340
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "2":
+    id: "2"
+    taskid: d1850238-2721-44d4-8032-bd41fd9828a4
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: d1850238-2721-44d4-8032-bd41fd9828a4
+      version: -1
+      name: Lists all collections
+      description: Lists all collections in database
+      script: '|||mongodb-list-collections'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 515
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "3":
+    id: "3"
+    taskid: 2db08c4f-b37e-43d5-83fa-0a28311a8912
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: 2db08c4f-b37e-43d5-83fa-0a28311a8912
+      version: -1
+      name: Are any existing collections?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "5"
+      "yes":
+      - "4"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                accessor: Collection.Name
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 690
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "4":
+    id: "4"
+    taskid: c9142a1e-24b0-4bd0-894e-e2a831c8c96e
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: c9142a1e-24b0-4bd0-894e-e2a831c8c96e
+      version: -1
+      name: Delete them all
+      description: Drops a collection from the database
+      script: '|||mongodb-drop-collection'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      collection:
+        complex:
+          root: MongoDB
+          accessor: Collection.Name
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1022.5,
+          "y": 865
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "5":
+    id: "5"
+    taskid: 1eff452e-bf49-4de6-8bd2-c8548b6390b6
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 1eff452e-bf49-4de6-8bd2-c8548b6390b6
+      version: -1
+      name: Create a collection
+      description: Creates a collection
+      script: '|||mongodb-create-collection'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1040
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "6":
+    id: "6"
+    taskid: b4e563f5-034c-4b6f-815e-0726347a497d
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: b4e563f5-034c-4b6f-815e-0726347a497d
+      version: -1
+      name: List all collections
+      description: Lists all collections in database
+      script: '|||mongodb-list-collections'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1215
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "7":
+    id: "7"
+    taskid: fda74df7-ed96-4e85-8422-222bc333b2bd
+    type: title
+    task:
+      elasticcommonfields: {}
+      id: fda74df7-ed96-4e85-8422-222bc333b2bd
+      version: -1
+      name: Prepare environment
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 195
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "8":
+    id: "8"
+    taskid: eb166f91-076c-4d16-899e-65acd998eca8
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: eb166f91-076c-4d16-899e-65acd998eca8
+      version: -1
+      name: Is collection exists?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "14"
+      "yes":
+      - "9"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                filters:
+                - - operator: isEqualString
+                    left:
+                      value:
+                        simple: MongoDB.Collection.Name
+                      iscontext: true
+                    right:
+                      value:
+                        simple: inputs.collection
+                      iscontext: true
+                accessor: Collection.Name
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1390
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "9":
+    id: "9"
+    taskid: 27702045-da9f-48ea-8cf7-4b0da12c2bc3
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 27702045-da9f-48ea-8cf7-4b0da12c2bc3
+      version: -1
+      name: Insert an entry
+      description: Inserts an entry to the database
+      script: '|||mongodb-insert'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "15"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      entry:
+        simple: '{"test" : "i am test"}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 1565
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "10":
+    id: "10"
+    taskid: dc192d6b-3061-4714-886d-3b9648216100
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: dc192d6b-3061-4714-886d-3b9648216100
+      version: -1
+      name: Get entry by ID
+      description: Get an entry from database by ID
+      script: '|||mongodb-get-entry-by-id'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      object_id:
+        complex:
+          root: MongoDB
+          accessor: _id
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1915
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "11":
+    id: "11"
+    taskid: 4b1eefff-6c58-4a72-85f2-b8327c295f19
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: 4b1eefff-6c58-4a72-85f2-b8327c295f19
+      version: -1
+      name: Verify context
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "13"
+      "yes":
+      - "12"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                accessor: test
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 2090
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "12":
+    id: "12"
+    taskid: 2cf4d899-cdc8-4049-821d-7b2e45597fdc
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 2cf4d899-cdc8-4049-821d-7b2e45597fdc
+      version: -1
+      name: Delete context
+      description: Delete field from context
+      scriptName: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      all:
+        simple: "yes"
+      index: {}
+      key: {}
+      keysToKeep: {}
+      subplaybook: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 2265
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "13":
+    id: "13"
+    taskid: a8d25025-b5af-4c3a-8e29-6f8f167ecce9
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: a8d25025-b5af-4c3a-8e29-6f8f167ecce9
+      version: -1
+      name: raise error
+      description: Prints an error entry with a given message
+      scriptName: PrintErrorEntry
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      message:
+        simple: Could not get entry from the Mongo server
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 2265
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "14":
+    id: "14"
+    taskid: 7655d7a6-27ad-4d3e-8dee-7c599600a495
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 7655d7a6-27ad-4d3e-8dee-7c599600a495
+      version: -1
+      name: Raise Error
+      description: Prints an error entry with a given message
+      scriptName: PrintErrorEntry
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      message:
+        simple: Could not find created collection
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1125,
+          "y": 1565
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "15":
+    id: "15"
+    taskid: 4dff1855-bc2c-4024-843a-ce933edc920f
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: 4dff1855-bc2c-4024-843a-ce933edc920f
+      version: -1
+      name: Verify context
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "16"
+      "yes":
+      - "10"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                accessor: _id
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 1740
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "16":
+    id: "16"
+    taskid: b5c87203-0648-4bac-8250-cc31ab46ae74
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: b5c87203-0648-4bac-8250-cc31ab46ae74
+      version: -1
+      name: raise error
+      description: Prints an error entry with a given message
+      scriptName: PrintErrorEntry
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      message:
+        simple: Could not find inserted entry
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1915
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "17":
+    id: "17"
+    taskid: 3c0c51d1-0f0f-4952-8143-a607c3733db4
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 3c0c51d1-0f0f-4952-8143-a607c3733db4
+      version: -1
+      name: Send query
+      description: Searches items by query
+      script: '|||mongodb-query'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "18"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      query:
+        simple: '{"test" : "i am test"}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 2440
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "18":
+    id: "18"
+    taskid: 2163d190-7270-4472-8b7e-343baa4aa727
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: 2163d190-7270-4472-8b7e-343baa4aa727
+      version: -1
+      name: Verify Context
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "19"
+      "yes":
+      - "20"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                accessor: _id
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 2615
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "19":
+    id: "19"
+    taskid: 9e4fd96a-42c7-452e-8aba-8d9d9d8deaea
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 9e4fd96a-42c7-452e-8aba-8d9d9d8deaea
+      version: -1
+      name: raise error
+      description: Prints an error entry with a given message
+      scriptName: PrintErrorEntry
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      message:
+        simple: Could not find queried entry
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 2790
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "20":
+    id: "20"
+    taskid: d41316ba-5873-42a7-8654-0a336d7965e7
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: d41316ba-5873-42a7-8654-0a336d7965e7
+      version: -1
+      name: Update entry
+      description: Updates an entry in a collection
+      script: '|||mongodb-update'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "21"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      filter:
+        simple: '{"test" : "i am test"}'
+      update:
+        simple: '{"$set": {"test": "still a test"}}'
+      update_one: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 2790
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "21":
+    id: "21"
+    taskid: ee8f3c5b-ac3c-42bf-8712-71ef90b5b781
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: ee8f3c5b-ac3c-42bf-8712-71ef90b5b781
+      version: -1
+      name: Query updated entry
+      description: Searches items by query
+      script: '|||mongodb-query'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "22"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      query:
+        simple: '{"test": "still a test"}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 2965
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "22":
+    id: "22"
+    taskid: ea5560bb-2cfd-4e69-8b7f-f028f95d3e92
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: ea5560bb-2cfd-4e69-8b7f-f028f95d3e92
+      version: -1
+      name: Verify Context
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "23"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                filters:
+                - - operator: isEqualString
+                    left:
+                      value:
+                        simple: MongoDB.test
+                      iscontext: true
+                    right:
+                      value:
+                        simple: still a test
+                accessor: _id
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 3140
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "23":
+    id: "23"
+    taskid: 58c5223d-e664-41c4-8e6e-d9295b1f85f1
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 58c5223d-e664-41c4-8e6e-d9295b1f85f1
+      version: -1
+      name: Delete entry
+      description: Deletes an entry from the database
+      script: '|||mongodb-delete'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "24"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      delete_one: {}
+      filter:
+        simple: '{"test": "still a test"}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 3315
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "24":
+    id: "24"
+    taskid: 9d34745b-7a14-4c38-813a-b8ae5624cb14
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 9d34745b-7a14-4c38-813a-b8ae5624cb14
+      version: -1
+      name: Delete Context
+      description: Delete field from context
+      scriptName: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "25"
+    scriptarguments:
+      all:
+        simple: "yes"
+      index: {}
+      key: {}
+      keysToKeep: {}
+      subplaybook: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 3490
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "25":
+    id: "25"
+    taskid: f6296e42-f2cb-4ccc-8cd9-980ae73a2262
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: f6296e42-f2cb-4ccc-8cd9-980ae73a2262
+      version: -1
+      name: Query for all data
+      description: Searches items by query
+      script: '|||mongodb-query'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "26"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+      query:
+        simple: '{}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 3665
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "26":
+    id: "26"
+    taskid: 051e54c6-2997-4c18-887a-b0fecf32e286
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: 051e54c6-2997-4c18-887a-b0fecf32e286
+      version: -1
+      name: Verify Context
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "27"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              complex:
+                root: MongoDB
+                accessor: _id
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 3840
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "27":
+    id: "27"
+    taskid: 9e731387-21a3-4664-8988-a2f487615029
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 9e731387-21a3-4664-8988-a2f487615029
+      version: -1
+      name: Delete collection
+      description: Drops a collection from the database
+      script: '|||mongodb-drop-collection'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "28"
+    scriptarguments:
+      collection:
+        complex:
+          root: inputs.collection
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 4015
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "28":
+    id: "28"
+    taskid: fc10b78c-58ea-48b0-8210-65577d4275ec
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: fc10b78c-58ea-48b0-8210-65577d4275ec
+      version: -1
+      name: Delete Context
+      description: Delete field from context
+      scriptName: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "29"
+    scriptarguments:
+      all:
+        simple: "yes"
+      index: {}
+      key: {}
+      keysToKeep: {}
+      subplaybook: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 4190
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "29":
+    id: "29"
+    taskid: 7adaeb6a-5618-4eb2-8c4b-36e3a36455e9
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 7adaeb6a-5618-4eb2-8c4b-36e3a36455e9
+      version: -1
+      name: List all collections
+      description: Lists all collections in database
+      script: '|||mongodb-list-collections'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "30"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 4365
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "30":
+    id: "30"
+    taskid: b267cf5a-78ee-48bf-8b36-cbb5e7c8f360
+    type: condition
+    task:
+      elasticcommonfields: {}
+      id: b267cf5a-78ee-48bf-8b36-cbb5e7c8f360
+      version: -1
+      name: Check no collections returned
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "32"
+      "yes":
+      - "31"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isNotExists
+          left:
+            value:
+              complex:
+                root: MongoDB
+                accessor: Collection.Name
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 4540
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "31":
+    id: "31"
+    taskid: 50eab921-9687-4bf3-8e66-6104ec33df77
+    type: title
+    task:
+      elasticcommonfields: {}
+      id: 50eab921-9687-4bf3-8e66-6104ec33df77
+      version: -1
+      name: FIN
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 4730
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+  "32":
+    id: "32"
+    taskid: 2ecd3ffe-6054-4b84-8421-fcae48ecdaa0
+    type: regular
+    task:
+      elasticcommonfields: {}
+      id: 2ecd3ffe-6054-4b84-8421-fcae48ecdaa0
+      version: -1
+      name: raise error
+      description: Prints an error entry with a given message
+      scriptName: PrintErrorEntry
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      message:
+        simple: Collection was not empty
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 4715
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    skipunavailable: false
+    quietmode: 0
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 4760,
+        "width": 1455,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs:
+- key: collection
+  value:
+    simple: test
+  required: false
+  description: ""
+  playbookInputQuery: null
+outputs: []

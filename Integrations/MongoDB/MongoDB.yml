@@ -1,0 +1,193 @@
+category: Database
+commonfields:
+  id: MongoDB
+  version: -1
+configuration:
+- display: Username
+  name: credentials
+  required: true
+  type: 9
+- additionalinfo: A comma separated list of urls with port.
+  display: Server URLs with port (host1.com:27017,host2.com:27017)
+  name: urls
+  required: true
+  type: 0
+- display: Database
+  name: database
+  required: true
+  type: 0
+- display: Trust any certificate (not secure)
+  hidden: false
+  name: insecure
+  required: false
+  type: 8
+description: Use MongoDB to search and query entries
+display: MongoDB
+name: MongoDB
+script:
+  commands:
+  - arguments:
+    - default: false
+      description: Name of the collection do get entry from.
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    - default: false
+      description: An ObjectID to get.
+      isArray: true
+      name: object_id
+      required: true
+      secret: false
+    deprecated: false
+    description: Get an entry from database by ID
+    execution: false
+    name: mongodb-get-entry-by-id
+    outputs:
+    - contextPath: MongoDB._id
+      description: ID of entry
+      type: String
+  - arguments:
+    - default: false
+      description: Name of the collection do query from.
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    - default: false
+      description: A JSON query to search in collection.
+      isArray: false
+      name: query
+      required: true
+      secret: false
+    deprecated: false
+    description: Searches items by query
+    execution: false
+    name: mongodb-query
+    outputs:
+    - contextPath: MongoDB._id
+      description: ID of entry from query
+      type: String
+  - arguments:
+    - default: false
+      description: Name of the collection to insert entry from.
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    - default: false
+      description: Entry JSON formatted. can include `_id` argument or not.
+      isArray: false
+      name: entry
+      required: true
+      secret: false
+    deprecated: false
+    description: Inserts an entry to the database
+    execution: false
+    name: mongodb-insert
+    outputs:
+    - contextPath: MongoDB._id
+      description: ID of entry from query.
+      type: String
+  - arguments:
+    - default: false
+      description: Name of the collection to update entry to.
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    - default: false
+      description: A query that matches the document to update.
+      isArray: false
+      name: filter
+      required: true
+      secret: false
+    - default: false
+      description: You can use Update Operators or Aggregation Pipeline. Check documentation
+        for further information.
+      isArray: false
+      name: update
+      required: true
+      secret: false
+    - auto: PREDEFINED
+      default: false
+      defaultValue: 'true'
+      description: Update only one entry. if true, will set all found entries.
+      isArray: false
+      name: update_one
+      predefined:
+      - 'true'
+      - 'false'
+      required: false
+      secret: false
+    deprecated: false
+    description: Updates an entry in a collection
+    execution: false
+    name: mongodb-update
+  - arguments:
+    - default: false
+      description: Name of the collection to delete entry from.
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    - default: false
+      description: A query that matches the document to delete.
+      isArray: false
+      name: filter
+      required: true
+      secret: false
+    - auto: PREDEFINED
+      default: false
+      defaultValue: 'true'
+      description: Delete only one entry from the database.
+      isArray: false
+      name: delete_one
+      predefined:
+      - 'true'
+      - 'false'
+      required: false
+      secret: false
+    deprecated: false
+    description: Deletes an entry from the database
+    execution: false
+    name: mongodb-delete
+  - deprecated: false
+    description: Lists all collections in database
+    execution: false
+    name: mongodb-list-collections
+    outputs:
+    - contextPath: MongoDB.Collection.Name
+      description: Name of the collection
+      type: String
+  - arguments:
+    - default: true
+      description: Name of collection to create.
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    deprecated: false
+    description: Creates a collection
+    execution: false
+    name: mongodb-create-collection
+  - arguments:
+    - default: true
+      description: Name of collection to be dropped
+      isArray: false
+      name: collection
+      required: true
+      secret: false
+    deprecated: false
+    description: Drops a collection from the database
+    execution: true
+    name: mongodb-drop-collection
+  dockerimage: devdemisto/pymongo:1.0.0.273
+  feed: false
+  isfetch: false
+  longRunning: false
+  longRunningPort: false
+  runonce: false
+  script: '-'
+  subtype: python2
+  type: python

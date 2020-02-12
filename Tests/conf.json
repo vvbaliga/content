@@ -2229,6 +2229,10 @@
             "integrations": "BruteForceBlocker Feed",
             "playbookID": "playbook-BruteForceBlocker_test",
             "fromversion": "5.5.0"
+        },
+        {
+            "integrations": "MongoDB",
+            "playbookID": "TestMongoDB"
         }
     ],
     "skipped_tests": {
@@ -2265,6 +2269,7 @@
     },
     "skipped_integrations": {
         "_comment": "~~~ NO INSTANCE ~~~",
+        "MongoDB": "No instance, devops working on it",
         "AWS - IAM": "Issue 21401",
         "FortiGate": "License expired, and not going to get one (issue 14723)",
         "IronDefense": "Test depends on making requests to a non-public API",
