@@ -151,7 +151,7 @@ Inserts an entry to the database
 
 
 ##### Command Example
-```!mongodb-insert collection=testCollection entry=`{"test": true}````
+```!mongodb-insert collection=testCollection entry=`{"test": true}`\```
 
 ##### Context Example
 ```json
@@ -194,7 +194,7 @@ Updates an entry in a collection
 There is no context output for this command.
 
 ##### Command Example
-```!mongodb-update collection=test filter=`{"test": true}` update=`{"$set": {"test": false}}````
+```!mongodb-update collection=test filter=`{"test": true}` update=`{"$set": {"test": false}}`\```
 
 ##### Human Readable Output
 ### MongoDB: Total of 1 entries has been modified.
@@ -246,7 +246,7 @@ There are no input arguments for this command.
 
 
 ##### Command Example
-```!mongodb-list-collections ```
+```!mongodb-list-collections```
 
 ##### Context Example
 ```json
