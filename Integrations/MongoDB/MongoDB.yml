@@ -182,12 +182,14 @@ script:
     description: Drops a collection from the database
     execution: true
     name: mongodb-drop-collection
-  dockerimage: devdemisto/pymongo:1.0.0.273
+  dockerimage: demisto/pymongo:1.0.0.273
   feed: false
   isfetch: false
   longRunning: false
   longRunningPort: false
   runonce: false
   script: '-'
-  subtype: python2
+  subtype: python3
   type: python
+tests:
+  - TestMongoDB
