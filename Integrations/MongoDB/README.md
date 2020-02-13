@@ -97,7 +97,7 @@ Searches items by query
 
 
 ##### Command Example
-```!mongodb-query collection=test query=`{"test": true}````
+```!mongodb-query collection=test query=`{"test": true}```
 
 ##### Context Example
 ```json
