@@ -22,6 +22,11 @@
             "fromversion": "5.5.0"
         },
         {
+            "integrations": "Cofense Feed",
+            "playbookID": "TestCofenseFeed",
+            "fromversion": "5.5.0"
+        },
+        {
             "integrations": "Bambenek Consulting Feed",
             "playbookID": "BambenekConsultingFeed_Test",
             "fromversion": "5.5.0"
@@ -845,7 +850,7 @@
         {
             "integrations": [
                 "Mail Sender (New)",
-                "google"
+                "Gmail"
             ],
             "playbookID": "Mail Sender (New) Test"
         },
@@ -2226,8 +2231,31 @@
             "fromversion": "5.5.0"
         },
         {
+            "integrations": "AlienVault Reputation Feed",
+            "playbookID": "AlienVaultReputationFeed_Test",
+            "fromversion": "5.5.0",
+            "timeout": 9000
+        },
+        {
             "integrations": "BruteForceBlocker Feed",
             "playbookID": "playbook-BruteForceBlocker_test",
+            "fromversion": "5.5.0"
+        },
+        {
+            "integrations": "Feodo Tracker Hashes Feed",
+            "playbookID": "playbook-feodoteackerhash_test",
+            "fromversion": "5.5.0"
+        },
+        {
+            "integrations": "Feodo Tracker IP Blocklist Feed",
+            "instance_names": "feodo_tracker_ip_currently__active",
+            "playbookID": "playbook-feodotrackeripblock_test",
+            "fromversion": "5.5.0"
+        },
+        {
+            "integrations": "Feodo Tracker IP Blocklist Feed",
+            "instance_names": "feodo_tracker_ip_30_days",
+            "playbookID": "playbook-feodotrackeripblock_test",
             "fromversion": "5.5.0"
         },
         {
