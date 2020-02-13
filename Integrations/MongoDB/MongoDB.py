@@ -72,8 +72,8 @@ class Client:
     def update_entry(self, collection, filter, update, update_one) -> UpdateResult:
         collection_object = self.get_collection(collection)
         if update_one:
-            return collection_object.update_many(filter, update)
-        return collection_object.update_one(filter, update)
+            return collection_object.update_one(filter, update)
+        return collection_object.update_many(filter, update)
 
     def delete_entry(self, collection, filter, delete_one) -> DeleteResult:
         collection_object = self.get_collection(collection)
