@@ -12,7 +12,7 @@ configuration:
   name: urls
   required: true
   type: 0
-- display: Database
+- display: Database Name
   name: database
   required: true
   type: 0
@@ -34,7 +34,8 @@ script:
       required: true
       secret: false
     - default: false
-      description: An ObjectID to get.
+      description: A comma separated list of ObjectIds to get. Can be retrieved by
+        using `mongodb-query`.
       isArray: true
       name: object_id
       required: true
@@ -44,7 +45,7 @@ script:
     execution: false
     name: mongodb-get-entry-by-id
     outputs:
-    - contextPath: MongoDB._id
+    - contextPath: MongoDB.Entry._id
       description: ID of entry
       type: String
   - arguments:
@@ -55,7 +56,7 @@ script:
       required: true
       secret: false
     - default: false
-      description: A JSON query to search in collection.
+      description: 'A JSON query to search in collection. e.g: `{"key": "value"}`'
       isArray: false
       name: query
       required: true
@@ -65,7 +66,7 @@ script:
     execution: false
     name: mongodb-query
     outputs:
-    - contextPath: MongoDB._id
+    - contextPath: MongoDB.Entry._id
       description: ID of entry from query
       type: String
   - arguments:
@@ -76,17 +77,18 @@ script:
       required: true
       secret: false
     - default: false
-      description: Entry JSON formatted. can include `_id` argument or not.
+      description: 'Entry JSON formatted. can include `_id` argument or not. e.g:
+        `{"key": "value"}`'
       isArray: false
       name: entry
       required: true
       secret: false
     deprecated: false
-    description: Inserts an entry to the database
+    description: Inserts an entry to the database.
     execution: false
     name: mongodb-insert
     outputs:
-    - contextPath: MongoDB._id
+    - contextPath: MongoDB.Entry._id
       description: ID of entry from query.
       type: String
   - arguments:
@@ -97,14 +99,14 @@ script:
       required: true
       secret: false
     - default: false
-      description: A query that matches the document to update.
+      description: 'A query that matches the document to update. e.g: `{"key": "value"}`'
       isArray: false
       name: filter
       required: true
       secret: false
     - default: false
-      description: You can use Update Operators or Aggregation Pipeline. Check documentation
-        for further information.
+      description: 'You can use Update Operators or Aggregation Pipeline. Check documentation
+        for further information. e.g: `{"$set": {"key": "value"}}`'
       isArray: false
       name: update
       required: true
@@ -132,7 +134,7 @@ script:
       required: true
       secret: false
     - default: false
-      description: A query that matches the document to delete.
+      description: 'A query that matches the document to delete. e.g: `{"key": "value"}`'
       isArray: false
       name: filter
       required: true
@@ -192,4 +194,4 @@ script:
   subtype: python3
   type: python
 tests:
-  - TestMongoDB
+- MongoDB - Test

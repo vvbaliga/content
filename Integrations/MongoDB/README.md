@@ -2,7 +2,7 @@
 ---
 
 Use MongoDB to search and query entries
-This integration was integrated and tested with version xx of MongoDB
+This integration was integrated and tested with version v4.2.3 of MongoDB
 ## Configure MongoDB on Demisto
 ---
 

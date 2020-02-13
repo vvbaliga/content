@@ -10,7 +10,7 @@ from pymongo.database import Database
 from pymongo.errors import OperationFailure
 from pymongo.results import InsertManyResult, UpdateResult, DeleteResult
 
-CONTEXT_KEY = "MongoDB(val._id === obj._id)"
+CONTEXT_KEY = "MongoDB.Entry(val._id === obj._id)"
 
 
 class Client:
@@ -31,8 +31,8 @@ class Client:
     def get_collection(self, collection: str) -> Collection:
         if self.is_collection_in_db(collection):
             return self.db.get_collection(collection)
-        return_error(
-            f"MongoDB: Collection '{collection}' has not found in database '{self.db.name}'"
+        raise DemistoException(
+            f"Collection '{collection}' has not found in database '{self.db.name}'"
         )
 
     def get_entry_by_id(self, collection: str, alert_ids: List[str]) -> List[dict]:
@@ -134,7 +134,7 @@ def test_module(client: Client, **kwargs) -> Tuple[str, dict]:
     try:
         _ = client.db.list_collection_names()
     except OperationFailure as e:
-        return_error(str(e))
+        raise DemistoException(str(e))
     # To the unpack in the return.
     return "ok", {}
 
@@ -166,8 +166,7 @@ def search_query(
         outputs = {CONTEXT_KEY: raw_response}
         return readable_outputs, outputs, raw_response
     except JSONDecodeError:
-        return_error("MongoDB: the `query` parameter is not a valid json.")
-        sys.exit(1)
+        raise DemistoException("The `query` argument is not a valid json.")
 
 
 def insert_entry_command(
@@ -181,8 +180,7 @@ def insert_entry_command(
         entries = convert_id_to_object_id(entry_json)
         results = client.insert_entry(collection, entries)  # type: ignore[arg-type]
         if not results.acknowledged:
-            return_error("MongoDB: Error occurred when trying to enter insert entries.")
-            sys.exit(1)
+            raise Exception("Error occurred when trying to enter insert entries.")
         else:
             object_ids = convert_object_id_to_str(results.inserted_ids)
             human_readable = tableToMarkdown(
@@ -193,8 +191,7 @@ def insert_entry_command(
             outputs = {CONTEXT_KEY: [{"_id": _id} for _id in object_ids]}
             return human_readable, outputs, object_ids
     except JSONDecodeError:
-        return_error("MongoDB: The `entry` parameter is not a valid json.")
-        sys.exit(1)
+        raise DemistoException("The `entry` argument is not a valid json.")
 
 
 def update_entry_command(
@@ -209,18 +206,16 @@ def update_entry_command(
         json_filter = json.loads(filter)
         json_filter = convert_id_to_object_id(json_filter)
     except JSONDecodeError:
-        return_error("MongoDB: The `filter` parameter is not a valid json.")
-        sys.exit(1)
+        raise DemistoException("The `filter` argument is not a valid json.")
     try:
         json_update = json.loads(update)
     except JSONDecodeError:
-        return_error("MongoDB: The `update` parameter is not a valid json.")
-        sys.exit(1)
+        raise DemistoException("The `update` argument is not a valid json.")
     response = client.update_entry(
         collection, json_filter, json_update, argToBoolean(update_one)
     )
     if not response.acknowledged:
-        return_error("MongoDB: Error occurred when trying to enter update entries.")
+        raise DemistoException("Error occurred when trying to enter update entries.")
     return (
         f"### MongoDB: Total of {response.modified_count} entries has been modified.",
         None,
@@ -234,17 +229,16 @@ def delete_entry_command(
         json_filter = json.loads(filter)
         json_filter = convert_id_to_object_id(json_filter)
     except JSONDecodeError:
-        return_error("MongoDB: The `filter` parameter is not a valid json.")
-        sys.exit(1)
+        raise DemistoException("The `filter` argument is not a valid json.")
     results = client.delete_entry(collection, json_filter, argToBoolean(delete_one))
     if not results.acknowledged:
-        return_error("MongoDB: Error occurred when trying to enter delete entries.")
+        raise DemistoException("Error occurred when trying to enter delete entries.")
     return f"### MongoDB: Delete {results.deleted_count} entries.", None
 
 
 def create_collection_command(client: Client, collection: str, **kwargs) -> Tuple[str, None]:
     if client.is_collection_in_db(collection):
-        return f"### MongoDB: Collection '{collection}' is already exists", None
+        raise DemistoException(f"Collection '{collection}' is already exists")
     _ = client.create_collection(collection)
     return (
         f"### MongoDB: Collection '{collection}' has been successfully created.",
@@ -275,7 +269,7 @@ def drop_collection_command(
         or isinstance(response, dict)
         and not response.get("ok") == 1.0
     ):
-        return_error("MongoDB: Error occurred when trying to drop collection entries.")
+        raise DemistoException("Error occurred when trying to drop collection entries.")
     return f"### MongoDB: Collection '{collection}` has been dropped.", None
 
 
@@ -305,7 +299,7 @@ def main():
     try:
         return_outputs(*commands[command](client, **args))  # type: ignore[operator]
     except Exception as e:
-        return_error(f"MongoDB: an error occurred: {e}", error=e)
+        return_error(f"MongoDB: {e}", error=e)
 
 
 if __name__ in ("builtins", "__builtin__"):

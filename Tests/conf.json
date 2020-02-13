@@ -2260,7 +2260,7 @@
         },
         {
             "integrations": "MongoDB",
-            "playbookID": "TestMongoDB"
+            "playbookID": "MongoDB - Test"
         }
     ],
     "skipped_tests": {
