@@ -295,7 +295,6 @@ def main():
         "mongodb-create-collection": create_collection_command,
         "mongodb-drop-collection": drop_collection_command,
     }
-    # The command demisto.command() holds the command sent from the user.
     try:
         return_outputs(*commands[command](client, **args))  # type: ignore[operator]
     except Exception as e:
